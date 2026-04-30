@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import TestCallModal from './TestCallModal'
 
 type Lead = {
   id:           string
@@ -63,12 +64,13 @@ export default function CallsCampaignClient({
   leads:  Lead[]
   agents: Agent[]
 }) {
-  const [selected,   setSelected]   = useState<Set<string>>(new Set())
-  const [agentId,    setAgentId]    = useState(agents[0]?.id ?? '')
-  const [phase,      setPhase]      = useState<Phase>('select')
-  const [launchIdx,  setLaunchIdx]  = useState(0)
-  const [callStates, setCallStates] = useState<Record<string, CallState>>({})
+  const [selected,    setSelected]   = useState<Set<string>>(new Set())
+  const [agentId,     setAgentId]    = useState(agents[0]?.id ?? '')
+  const [phase,       setPhase]      = useState<Phase>('select')
+  const [launchIdx,   setLaunchIdx]  = useState(0)
+  const [callStates,  setCallStates] = useState<Record<string, CallState>>({})
   const [globalError, setGlobalError] = useState('')
+  const [showTest,    setShowTest]   = useState(false)
 
   const callStatesRef = useRef(callStates)
   useEffect(() => { callStatesRef.current = callStates }, [callStates])
@@ -186,6 +188,29 @@ export default function CallsCampaignClient({
 
   return (
     <div className="flex flex-col gap-6">
+
+      {/* ── Bouton test appel ── */}
+      <div className="flex justify-end">
+        <button
+          onClick={() => setShowTest(true)}
+          className="px-4 py-2 rounded-lg text-sm font-bold transition-all"
+          style={{
+            backgroundColor: 'rgba(0,229,255,0.08)',
+            color:           '#00E5FF',
+            border:          '1px solid rgba(0,229,255,0.2)',
+          }}
+        >
+          🧪 Tester un appel
+        </button>
+      </div>
+
+      {/* ── Modale test ── */}
+      {showTest && (
+        <TestCallModal
+          agents={agents}
+          onClose={() => setShowTest(false)}
+        />
+      )}
 
       {/* ── Sélection agent + leads ── */}
       {(phase === 'select' || phase === 'launching') && (
