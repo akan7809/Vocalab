@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 
 const APIFY_TOKEN = process.env.NEXT_PUBLIC_APIFY_API_KEY
-const ACTOR_ID    = '2zMYaRqzlVxBTkS7E'
+const ACTOR_ID    = 'nwua9Gu5YrADL7ZDj'
 
 const INDUSTRIES = ['BTP', 'Immobilier', 'SaaS', 'Finance', 'Santé', 'E-commerce', 'Industrie', 'Restauration', 'Autre']
 const COUNTS = [
@@ -165,9 +165,11 @@ export default function ScrapeForm() {
             Authorization:   `Bearer ${APIFY_TOKEN}`,
           },
           body: JSON.stringify({
-            query:    `${industry} ${city}`,
-            maxItems: count,
-            country:  'FR',
+            searchStringsArray:       [`${industry} ${city}`],
+            countryCode:              'fr',
+            maxCrawledPlaces:         count,
+            maxCrawledPlacesPerSearch: count,
+            language:                 'fr',
           }),
         }
       )
