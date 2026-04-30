@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
           systemPrompt: agent.system_prompt ?? undefined,
         } as any,
         voice: {
-          provider: 'elevenlabs',
+          provider: '11labs',
           voiceId:  agent.voice_id || 'EXAVITQu4vr4xnSDxMaL',
         } as any,
         endCallFunctionEnabled: true,
